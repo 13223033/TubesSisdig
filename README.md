@@ -7,3 +7,8 @@ Dokumen produk utama: https://itbdsti-my.sharepoint.com/:w:/g/personal/13223033_
 Canva progress report: https://www.canva.com/design/DAGW5BNqb-w/nXBqZ6G3FJoA3S5duUgsxA/edit?utm_content=DAGW5BNqb-w&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
 GDocs sementara proposal (Week #1): https://docs.google.com/document/d/1FH9sqvqeUypvOKmq7Gufx39l-94XbJIZVu74kYzJzvs/edit?usp=sharing
+
+## Link Referensi
+1. https://youtu.be/Tul1gOaTunQ?si=V3918wNKJ2kY_bjQ
+2. https://youtu.be/pTgmySlijAs?si=XWcn4pzc7FSBhDlz
+
