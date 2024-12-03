@@ -11,4 +11,5 @@ GDocs sementara proposal (Week #1): https://docs.google.com/document/d/1FH9sqvqe
 ## Link Referensi
 1. https://youtu.be/Tul1gOaTunQ?si=V3918wNKJ2kY_bjQ
 2. https://youtu.be/pTgmySlijAs?si=XWcn4pzc7FSBhDlz
-
+3. https://ez.analog.com/adieducation/university-program/b/blogs/posts/a-classic-phase-measurement-the-lissajous-pattern
+4. 
