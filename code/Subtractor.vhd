@@ -21,12 +21,12 @@ architecture Subtractor_arch of Subtractor is
     signal carry: std_logic_vector(data_length downto 0);
     signal inverted_b: std_logic_vector(data_length-1 downto 0);
 begin
-    invert_b <= NOT in_b;
+    inverted_b <= NOT in_b;
     carry(0) <= '1';
     GEN_ADDER: for i in 0 to data_length-1 generate
         ADDER: FullAdder port map (
             A => in_A(i),
-            B => invert_b(i),
+            B => inverted_b(i),
             Cin => carry(i),
             Cout => carry(i+1),
             Sum => output(i)
