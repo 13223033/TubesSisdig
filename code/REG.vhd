@@ -29,4 +29,4 @@ begin
         end if;
     end process;
     data_out <= temp_data;
-end architecture behavioral;
+end architecture REG_arch;
