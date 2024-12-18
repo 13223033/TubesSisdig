@@ -3,7 +3,7 @@ library ieee;
     use ieee.numeric_std.all;
 
 entity Right_shifter is
-    generic (data_length: natural);
+    generic (data_length: natural := 16);
     port (
         in_data     : in std_logic_vector(data_length-1 downto 0);
         shift       : in natural range 0 to (data_length-1);

@@ -3,7 +3,7 @@ library ieee;
     use ieee.numeric_std.all;
 
 entity Counter is
-    generic (data_length: natural);
+    generic (data_length: natural := 4);
     port (
         clock           : in std_logic;
         enable_ctr      : in std_logic;

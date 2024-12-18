@@ -3,7 +3,7 @@ library ieee;
     use ieee.numeric_std.all;
 
 entity MUX is
-    generic (data_length: natural);
+    generic (data_length: natural := 16);
     port (
         in_mux_A        : in std_logic_vector(data_length-1 downto 0);
         in_mux_B        : in std_logic_vector(data_length-1 downto 0);

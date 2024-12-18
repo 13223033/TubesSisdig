@@ -3,7 +3,7 @@ library ieee;
     use ieee.numeric_std.all;
 
 entity Adder is
-    generic (data_length: natural);
+    generic (data_length: natural := 16);
     port (
         in_A, in_B  : in std_logic_vector((data_length-1) downto 0);
         output      : out std_logic_vector(data_length downto 0)

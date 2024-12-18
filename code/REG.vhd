@@ -3,7 +3,7 @@ library ieee;
     use ieee.numeric_std.all;
 
 entity REG is
-    generic (data_length: natural);
+    generic (data_length: natural := 16);
     port (
         clock       : in std_logic;
         enable      : in std_logic;
