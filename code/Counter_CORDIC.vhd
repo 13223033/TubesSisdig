@@ -2,7 +2,7 @@ library ieee;
     use ieee.std_logic_1164.all;
     use ieee.numeric_std.all;
 
-entity Counter is
+entity Counter_CORDIC is
     generic (data_length: natural := 4);
     port (
         clock           : in std_logic;
@@ -10,9 +10,9 @@ entity Counter is
         reset_ctr       : in std_logic;
         count           : out std_logic_vector(data_length-1 downto 0)
     );
-end entity Counter;
+end entity Counter_CORDIC;
 
-architecture Counter_arch of Counter is
+architecture Counter_CORDIC_arch of Counter_CORDIC is
     signal temp_count: std_logic_vector(data_length-1 downto 0) := (others => '0');
 begin
     process (clock)
@@ -33,4 +33,4 @@ begin
 	end process;
 	-- hasil penghitungan sementara dimasukkan ke luaran hasil penghitungan. 
 	count <= std_logic_vector(temp_count);
-end Counter_arch;
+end Counter_CORDIC_arch;

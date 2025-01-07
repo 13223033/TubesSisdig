@@ -1,44 +1,37 @@
 library ieee;
     use ieee.std_logic_1164.all;
     use ieee.numeric_std.all;
-    use ieee.math_real.all;
 
 entity Arctan_LUT is
     generic (
-        LUT_size : integer := 16;
-        data_length : integer := 16);
+        data_length : natural := 16);
     port (
-        clk         : in std_logic;
-        index       : in integer range 0 to LUT_size-1;
-        arctan_out  : out real
+        index       : in std_logic_vector(3 downto 0);
+        arctan_out  : out std_logic_vector(data_length-1 downto 0)
     );
 end entity Arctan_LUT;
 
 architecture Arctan_LUT_arch of Arctan_LUT is
-    type real_array is array (0 to LUT_size-1) of real;
-    constant arctan_table: real_array := (
-        0 => std_logic_vector(to_signed(integer(atan(2.0**(-0)) * 2**(data_length-1)), data_length)),
-        1 => std_logic_vector(to_signed(integer(atan(2.0**(-1)) * 2**(data_length-1)), data_length)),
-        2 => std_logic_vector(to_signed(integer(atan(2.0**(-2)) * 2**(data_length-1)), data_length)),
-        3 => std_logic_vector(to_signed(integer(atan(2.0**(-3)) * 2**(data_length-1)), data_length)),
-        4 => std_logic_vector(to_signed(integer(atan(2.0**(-4)) * 2**(data_length-1)), data_length)),
-        5 => std_logic_vector(to_signed(integer(atan(2.0**(-5)) * 2**(data_length-1)), data_length)),
-        6 => std_logic_vector(to_signed(integer(atan(2.0**(-6)) * 2**(data_length-1)), data_length)),
-        7 => std_logic_vector(to_signed(integer(atan(2.0**(-7)) * 2**(data_length-1)), data_length)),
-        8 => std_logic_vector(to_signed(integer(atan(2.0**(-8)) * 2**(data_length-1)), data_length)),
-        9 => std_logic_vector(to_signed(integer(atan(2.0**(-9)) * 2**(data_length-1)), data_length)),
-        10 => std_logic_vector(to_signed(integer(atan(2.0**(-10)) * 2**(data_length-1)), data_length)),
-        11 => std_logic_vector(to_signed(integer(atan(2.0**(-11)) * 2**(data_length-1)), data_length)),
-        12 => std_logic_vector(to_signed(integer(atan(2.0**(-12)) * 2**(data_length-1)), data_length)),
-        13 => std_logic_vector(to_signed(integer(atan(2.0**(-13)) * 2**(data_length-1)), data_length)),
-        14 => std_logic_vector(to_signed(integer(atan(2.0**(-14)) * 2**(data_length-1)), data_length)),
-        15 => std_logic_vector(to_signed(integer(atan(2.0**(-15)) * 2**(data_length-1)), data_length))
-    );
 begin
-    process (clk)
+    LUT_ARCTAN: process(index)
     begin
-        if rising_edge(clk) then
-            arctan_out <= arctan_table(index);
-        end if;
-    end process;
+        case index is
+        when "0000" => arctan_out <= "0011001001000011";
+        when "0001" => arctan_out <= "0001110110101100";
+        when "0010" => arctan_out <= "0000111110101101";
+        when "0011" => arctan_out <= "0000011111110101";
+        when "0100" => arctan_out <= "0000001111111110";
+        when "0101" => arctan_out <= "0000000111111111";
+        when "0110" => arctan_out <= "0000000011111111";
+        when "0111" => arctan_out <= "0000000010000000";
+        when "1000" => arctan_out <= "0000000001000000";
+        when "1001" => arctan_out <= "0000000000100000";
+        when "1010" => arctan_out <= "0000000000010000";
+        when "1011" => arctan_out <= "0000000000001000";
+        when "1100" => arctan_out <= "0000000000000100";
+        when "1101" => arctan_out <= "0000000000000010";
+        when "1110" => arctan_out <= "0000000000000001";
+        when "1111" => arctan_out <= "0000000000000000";
+        end case;
+    end process LUT_ARCTAN;
 end architecture Arctan_LUT_arch;
