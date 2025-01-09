@@ -13,7 +13,7 @@ entity Counter_CORDIC is
 end entity Counter_CORDIC;
 
 architecture Counter_CORDIC_arch of Counter_CORDIC is
-    signal temp_count: std_logic_vector(data_length-1 downto 0) := (others => '0');
+    signal temp_count: unsigned (3 downto 0) := "0000";
 begin
     process (clock)
 	begin
@@ -21,7 +21,7 @@ begin
 		if rising_edge(clock) then
 			-- jika nilai reset adalah 1, maka hasil penghitungan menjadi 0.
 			if (reset_ctr = '1') then
-				temp_count <= (others => '0');
+				temp_count <= (others => "0000");
 			else
 			-- jika nilai reset adalah 0, maka...
 				-- jika nilai enable adalah 1, maka hasil penghitungan sementara ditambah 1.
