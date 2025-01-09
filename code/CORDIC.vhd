@@ -131,7 +131,7 @@ begin
     mux_3 : MUX generic map(data_length) port map(out_mux_6, theta_0, sel_iter, in_reg_theta);
 
     -- instantiasi MUX layer 2
-    mux_4 : MUX generic map(data_length) port map(in_mux_4A, in_mux_4B, sel_dir, out_mux_4);
+    mux_4 : MUX generic map(data_length) port map(in_mux_4A, in_mux_4B, (NOT sel_dir), out_mux_4);
     mux_5 : MUX generic map(data_length) port map(in_mux_5A, in_mux_5B, sel_dir, out_mux_5);
     mux_6 : MUX generic map(data_length) port map(in_mux_6A, in_mux_6B, sel_dir, out_mux_6);
 

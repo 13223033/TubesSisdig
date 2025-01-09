@@ -4,7 +4,7 @@ library ieee;
 
 entity FSM_Cordic is
     port (
-        clock, divider_done : in std_logic;
+        clock, divider_done, purge : in std_logic;
         comp_iter, comp_dir : in std_logic_vector(1 downto 0);
         enable, reset, sel_iter, sel_dir, cordic_done : out std_logic
     );
@@ -13,11 +13,16 @@ end entity FSM_Cordic;
 architecture FSM_Cordic_arch of FSM_Cordic is
     type states is (idle, iteration, finish);
     signal current_state, next_state : states;
+    signal process_signal : std_logic := '0';
 begin
     change_state: process(clock, divider_done)
     begin 
-        if (divider_done = '1') then
+        if (divider_done = '1' AND (process_signal = '0') ) AND purge = '0' then
             current_state <= idle;
+            process_signal <= '1';
+        elsif (purge = '1') then
+            current_state <= idle;
+            process_signal <= '0';
         elsif (rising_edge(clock)) then
             current_state <= next_state;
         end if;
@@ -58,10 +63,10 @@ begin
                     next_state <= idle;
                 end if;
             when finish =>
-                next_state <= idle;
+                next_state <= finish;
 
                 enable <= '0';
-                reset <= '1';
+                reset <= '0';
                 sel_iter <= '0';
                 cordic_done <= '1';
         end case;
