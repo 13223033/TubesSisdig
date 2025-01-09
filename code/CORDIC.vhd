@@ -39,7 +39,7 @@ architecture CORDIC_arch of CORDIC is
         generic (data_length: natural := 16);
         port (
             in_A, in_B  : in std_logic_vector((data_length-1) downto 0);
-            output      : out std_logic_vector(data_length downto 0)
+            output      : out std_logic_vector(data_length-1 downto 0)
         );
     end component Subtractor;
         
@@ -47,7 +47,7 @@ architecture CORDIC_arch of CORDIC is
         generic (data_length: natural := 16);
         port (
             in_A, in_B  : in std_logic_vector((data_length-1) downto 0);
-            output      : out std_logic_vector(data_length downto 0)
+            output      : out std_logic_vector(data_length-1 downto 0)
         );
     end component Adder;
 
@@ -55,7 +55,7 @@ architecture CORDIC_arch of CORDIC is
         generic (data_length: natural := 16);
         port (
             in_data     : in std_logic_vector(data_length-1 downto 0);
-            shift       : in natural range 0 to (data_length-1);
+            shift       : in std_logic_vector(3 downto 0);
             out_data    : out std_logic_vector(data_length-1 downto 0)
         );
     end component Right_shifter;
@@ -66,7 +66,7 @@ architecture CORDIC_arch of CORDIC is
             clock           : in std_logic;
             enable_ctr      : in std_logic;
             reset_ctr       : in std_logic;
-            count           : out std_logic_vector(data_length-1 downto 0)
+            count           : out std_logic_vector(3 downto 0)
         );
     end component Counter_CORDIC;
 
@@ -89,7 +89,7 @@ architecture CORDIC_arch of CORDIC is
     component Arctan_LUT is
         generic (data_length: natural := 16);
         port (
-            index     : in std_logic_vector(data_length-1 downto 0);
+            index     : in std_logic_vector(3 downto 0);
             arctan_out    : out std_logic_vector(data_length-1 downto 0)
         );
     end component Arctan_LUT;
