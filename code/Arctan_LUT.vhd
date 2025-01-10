@@ -32,6 +32,7 @@ begin
         when "1101" => arctan_out <= "0000000000000010";
         when "1110" => arctan_out <= "0000000000000001";
         when "1111" => arctan_out <= "0000000000000000";
+	    when others => arctan_out <= "0000000000000000";
         end case;
     end process LUT_ARCTAN;
 end architecture Arctan_LUT_arch;

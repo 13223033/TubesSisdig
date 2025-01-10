@@ -7,6 +7,7 @@ entity CORDIC is
     port (
         max10_clock           : in std_logic;
         divider_done    : in std_logic;
+        purge           : in std_logic;
         in_z            : in std_logic_vector(data_length-1 downto 0);
         out_theta       : out std_logic_vector(data_length-1 downto 0);
         out_cordic_done : out std_logic
@@ -80,7 +81,7 @@ architecture CORDIC_arch of CORDIC is
 
     component FSM_Cordic is
         port (
-        clock, divider_done : in std_logic;
+        clock, divider_done, purge : in std_logic;
         comp_iter, comp_dir : in std_logic_vector(1 downto 0);
         enable, reset, sel_iter, sel_dir, cordic_done : out std_logic
     );
@@ -115,14 +116,19 @@ architecture CORDIC_arch of CORDIC is
 
     signal out_LUT: std_logic_vector(data_length-1 downto 0);
 
-    signal enable, reset, sel_iter, sel_dir: std_logic;
+    signal enable, reset: std_logic;
+    signal sel_iter, sel_dir: std_logic := '0';
 
     signal clock: std_logic;
 
     signal comp_iter_out: std_logic_vector(1 downto 0);
 
     signal comp_dir_out: std_logic_vector(1 downto 0);
+
+    signal seldirinverted:std_logic;
+
 begin
+	seldirinverted <= NOT(sel_dir);
     clock <= max10_clock;
 
     -- instantiasi MUX layer 1
@@ -131,7 +137,7 @@ begin
     mux_3 : MUX generic map(data_length) port map(out_mux_6, theta_0, sel_iter, in_reg_theta);
 
     -- instantiasi MUX layer 2
-    mux_4 : MUX generic map(data_length) port map(in_mux_4A, in_mux_4B, (NOT sel_dir), out_mux_4);
+    mux_4 : MUX generic map(data_length) port map(in_mux_4A, in_mux_4B, (seldirinverted), out_mux_4);
     mux_5 : MUX generic map(data_length) port map(in_mux_5A, in_mux_5B, sel_dir, out_mux_5);
     mux_6 : MUX generic map(data_length) port map(in_mux_6A, in_mux_6B, sel_dir, out_mux_6);
 
@@ -162,8 +168,11 @@ begin
     comp_dir  : Comparator generic map(data_length) port map(out_mux_5, in_z, comp_dir_out);
 
     -- instantiasi FSM
-    CONTROL_UNIT    : FSM_Cordic port map(clock, divider_done, comp_iter_out, comp_dir_out, enable, reset, sel_iter, sel_dir, cordic_done);
+    CONTROL_UNIT    : FSM_Cordic port map(clock, divider_done, purge, comp_iter_out, comp_dir_out, enable, reset, sel_iter, sel_dir, cordic_done);
 
     -- instantiasi LUT
     Arctan_LUT_inst : Arctan_LUT generic map(data_length) port map(out_counter, out_LUT);
+
+    out_theta <= out_reg_theta;
+    out_cordic_done <= cordic_done;
 end architecture CORDIC_arch;
