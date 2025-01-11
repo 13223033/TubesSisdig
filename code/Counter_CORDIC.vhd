@@ -3,25 +3,27 @@ library ieee;
     use ieee.numeric_std.all;
 
 entity Counter_CORDIC is
-    generic (data_length: natural := 4);
+    generic (data_length: natural := 6);
     port (
         clock           : in std_logic;
         enable_ctr      : in std_logic;
         reset_ctr       : in std_logic;
-        count           : out std_logic_vector(3 downto 0)
+        count           : out std_logic_vector(data_length-1 downto 0)
     );
 end entity Counter_CORDIC;
 
 architecture Counter_CORDIC_arch of Counter_CORDIC is
-    signal temp_count: unsigned (3 downto 0) := "0000";
+    --signal temp_count1: unsigned((data_length-1) downto 0) := (others => '0');
+	signal temp_count: unsigned((data_length-1) downto 0);
 begin
+	--temp_count <= temp_count1 + 1;
     process (clock)
 	begin
 		-- jika clock mengalami perubahan dan bernilai 1
 		if rising_edge(clock) then
 			-- jika nilai reset adalah 1, maka hasil penghitungan menjadi 0.
 			if (reset_ctr = '1') then
-				temp_count <= "0000";
+				temp_count <= ((others => '0'));
 			else
 			-- jika nilai reset adalah 0, maka...
 				-- jika nilai enable adalah 1, maka hasil penghitungan sementara ditambah 1.

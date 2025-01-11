@@ -28,7 +28,7 @@ begin
         end if;
     end process change_state;
 
-    control_fsm: process(current_state, comp_iter)
+    control_fsm: process(current_state, comp_iter, comp_dir)
     begin
         case current_state is
             when idle =>
@@ -37,7 +37,7 @@ begin
                 enable <= '1';
                 reset <= '1';
                 sel_iter <= '0';
-                sel_dir <= '0';
+                sel_dir <= '1';
                 cordic_done <= '0';
             when iteration =>
                 if (comp_iter = "11") then
@@ -67,7 +67,7 @@ begin
 
                 enable <= '0';
                 reset <= '0';
-                sel_iter <= '0';
+                sel_iter <= '1';
                 cordic_done <= '1';
         end case;
     end process control_fsm;

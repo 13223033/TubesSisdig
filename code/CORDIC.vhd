@@ -10,7 +10,8 @@ entity CORDIC is
         purge           : in std_logic;
         in_z            : in std_logic_vector(data_length-1 downto 0);
         out_theta       : out std_logic_vector(data_length-1 downto 0);
-        out_cordic_done : out std_logic
+        out_cordic_done : out std_logic;
+        out_y          : out std_logic_vector(data_length-1 downto 0)
     );
 end entity CORDIC;
 
@@ -56,18 +57,18 @@ architecture CORDIC_arch of CORDIC is
         generic (data_length: natural := 16);
         port (
             in_data     : in std_logic_vector(data_length-1 downto 0);
-            shift       : in std_logic_vector(3 downto 0);
+            shift       : in std_logic_vector(5 downto 0);
             out_data    : out std_logic_vector(data_length-1 downto 0)
         );
     end component Right_shifter;
 
     component Counter_CORDIC is
-        generic (data_length: natural := 4);
+        generic (data_length: natural := 6);
         port (
             clock           : in std_logic;
             enable_ctr      : in std_logic;
             reset_ctr       : in std_logic;
-            count           : out std_logic_vector(3 downto 0)
+            count           : out std_logic_vector(5 downto 0)
         );
     end component Counter_CORDIC;
 
@@ -90,7 +91,7 @@ architecture CORDIC_arch of CORDIC is
     component Arctan_LUT is
         generic (data_length: natural := 16);
         port (
-            index     : in std_logic_vector(3 downto 0);
+            index     : in std_logic_vector(5 downto 0);
             arctan_out    : out std_logic_vector(data_length-1 downto 0)
         );
     end component Arctan_LUT;
@@ -101,7 +102,7 @@ architecture CORDIC_arch of CORDIC is
     constant x_0 : std_logic_vector(data_length-1 downto 0) := "0010011011011101";
     constant y_0 : std_logic_vector(data_length-1 downto 0) := "0000000000000000";
     constant theta_0 : std_logic_vector(data_length-1 downto 0) := "0000000000000000";
-    constant max_iter : std_logic_vector(3 downto 0) := "1111";
+    constant max_iter : std_logic_vector(5 downto 0) := "001111";
 
     signal out_mux_4, out_mux_5, out_mux_6: std_logic_vector(data_length-1 downto 0) := "0000000000000000";
     signal in_mux_4A, in_mux_4B, in_mux_5A, in_mux_5B, in_mux_6A, in_mux_6B: std_logic_vector(data_length-1 downto 0);
@@ -112,7 +113,7 @@ architecture CORDIC_arch of CORDIC is
 
     signal out_shift_x, out_shift_y: std_logic_vector(data_length-1 downto 0);
 
-    signal out_counter: std_logic_vector(3 downto 0) := "0000";
+    signal out_counter: std_logic_vector(5 downto 0) := (others => '0');
 
     signal out_LUT: std_logic_vector(data_length-1 downto 0);
 
@@ -161,11 +162,11 @@ begin
     adder_theta : Adder generic map(data_length) port map(out_reg_theta, out_LUT, in_mux_6B);
 
     -- instantiasi counter
-    counter : Counter_CORDIC generic map(data_length) port map(clock, enable, reset, out_counter);
+    counter : Counter_CORDIC generic map(6) port map(clock, enable, reset, out_counter);
 
     -- instantiasi comparator
-    comp_iter : Comparator generic map(4) port map(out_counter, max_iter, comp_iter_out);
-    comp_dir  : Comparator generic map(data_length) port map(out_mux_5, in_z, comp_dir_out);
+    comp_iter : Comparator generic map(6) port map(out_counter, max_iter, comp_iter_out);
+    comp_dir  : Comparator generic map(data_length) port map(out_reg_y, in_z, comp_dir_out);
 
     -- instantiasi FSM
     CONTROL_UNIT    : FSM_Cordic port map(clock, divider_done, purge, comp_iter_out, comp_dir_out, enable, reset, sel_iter, sel_dir, cordic_done);
@@ -175,4 +176,5 @@ begin
 
     out_theta <= out_reg_theta;
     out_cordic_done <= cordic_done;
+    out_y <= out_reg_y;
 end architecture CORDIC_arch;

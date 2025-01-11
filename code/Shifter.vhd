@@ -6,7 +6,7 @@ entity Right_shifter is
     generic (data_length: natural := 16);
     port (
         in_data     : in std_logic_vector(data_length-1 downto 0);
-        shift       : in std_logic_vector(3 downto 0);
+        shift       : in std_logic_vector(5 downto 0);
         out_data    : out std_logic_vector(data_length-1 downto 0)
     );
 end entity Right_shifter;
@@ -25,11 +25,11 @@ begin
             if NOT(shift_amount=0) then
                 if in_data(data_length-1)='0' then
                     shifted(data_length-1-1-shift_amount downto 0) <= in_data(data_length-1-1 downto shift_amount);
-                    shifted(data_length-1-1 downto data_length-shift_amount) <=zeros(data_length-1-1 downto data_length-shift_amount);
+                    shifted(data_length-1-1 downto data_length-1-shift_amount) <=zeros(data_length-1-1 downto data_length-1-shift_amount);
                     shifted(data_length-1) <=in_data(data_length-1);
                 else
                     shifted(data_length-1-1-shift_amount downto 0) <= in_data(data_length-1-1 downto shift_amount);
-                    shifted(data_length-1-1 downto data_length-shift_amount) <=ones(data_length-1-1 downto data_length-shift_amount);
+                    shifted(data_length-1-1 downto data_length-1-shift_amount) <=ones(data_length-1-1 downto data_length-1-shift_amount);
                     shifted(data_length-1) <=in_data(data_length-1);
                 end if;
             else
