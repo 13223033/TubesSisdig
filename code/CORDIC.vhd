@@ -30,7 +30,7 @@ architecture CORDIC_arch of CORDIC is
         port (
             clock       : in std_logic;
             enable      : in std_logic;
-            clear       : in std_logic;
+            -- clear       : in std_logic;
             data_in     : in std_logic_vector(data_length-1 downto 0);
             data_out    : out std_logic_vector(data_length-1 downto 0)
         );
@@ -142,9 +142,9 @@ begin
     mux_6 : MUX generic map(data_length) port map(in_mux_6A, in_mux_6B, sel_dir, out_mux_6);
 
     -- instantiasi register
-    reg_x : REG generic map(data_length) port map(clock, enable, reset, in_reg_x, out_reg_x);
-    reg_y : REG generic map(data_length) port map(clock, enable, reset, in_reg_y, out_reg_y);
-    reg_theta : REG generic map(data_length) port map(clock, enable, reset, in_reg_theta, out_reg_theta);
+    reg_x : REG generic map(data_length) port map(clock, enable, in_reg_x, out_reg_x);
+    reg_y : REG generic map(data_length) port map(clock, enable, in_reg_y, out_reg_y);
+    reg_theta : REG generic map(data_length) port map(clock, enable, in_reg_theta, out_reg_theta);
 
     -- instantiasi shifter
     shifter_x : Right_shifter generic map(data_length) port map(out_reg_x, out_counter, out_shift_x);

@@ -14,6 +14,7 @@ end entity Right_shifter;
 architecture Right_shifter_arch of Right_shifter is
     signal shifted : std_logic_vector (data_length-1 downto 0);
     signal zeros : std_logic_vector (data_length-1 downto 0):="0000000000000000";
+    signal ones  : std_logic_vector (data_length-1 downto 0):="1111111111111111";
 
 begin
     process (in_data, shift)
@@ -22,8 +23,15 @@ begin
         shift_amount := to_integer(unsigned(shift));
         if shift_amount < data_length then
             if NOT(shift_amount=0) then
-                shifted(data_length-1-shift_amount downto 0) <= in_data(data_length-1 downto shift_amount);
-                shifted(data_length-1 downto data_length-shift_amount) <=zeros(data_length-1 downto data_length-shift_amount);
+                if in_data(data_length-1)='0' then
+                    shifted(data_length-1-1-shift_amount downto 0) <= in_data(data_length-1-1 downto shift_amount);
+                    shifted(data_length-1-1 downto data_length-shift_amount) <=zeros(data_length-1-1 downto data_length-shift_amount);
+                    shifted(data_length-1) <=in_data(data_length-1);
+                else
+                    shifted(data_length-1-1-shift_amount downto 0) <= in_data(data_length-1-1 downto shift_amount);
+                    shifted(data_length-1-1 downto data_length-shift_amount) <=ones(data_length-1-1 downto data_length-shift_amount);
+                    shifted(data_length-1) <=in_data(data_length-1);
+                end if;
             else
                 shifted<=in_data;
             end if;

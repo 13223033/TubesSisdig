@@ -36,23 +36,23 @@ begin
 
                 enable <= '1';
                 reset <= '1';
-                sel_iter <= '1';
-                sel_dir <= '1';
+                sel_iter <= '0';
+                sel_dir <= '0';
                 cordic_done <= '0';
             when iteration =>
                 if (comp_iter = "11") then
                     next_state <= finish;
 
-                    enable <= '1';
+                    enable <= '0';
                     reset <= '0';
-                    sel_iter <= '0';
+                    sel_iter <= '1';
                     cordic_done <= '0';
                 elsif (comp_iter = "10") then
                     next_state <= iteration;
 
                     enable <= '1';
                     reset <= '0';
-                    sel_iter <= '0';
+                    sel_iter <= '1';
                     cordic_done <= '0';
                     if (comp_dir = "10") then
                         sel_dir <= '0';

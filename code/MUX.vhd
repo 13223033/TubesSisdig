@@ -17,9 +17,9 @@ begin
     process (in_mux_A, in_mux_B, selector)
     begin
         if (selector = '1') then
-            out_mux <= in_mux_B;
-        else
             out_mux <= in_mux_A;
+        else
+            out_mux <= in_mux_B;
         end if;
     end process;
 end architecture MUX_arch;
