@@ -10,8 +10,7 @@ entity CORDIC is
         purge           : in std_logic;
         in_z            : in std_logic_vector(data_length-1 downto 0);
         out_theta       : out std_logic_vector(data_length-1 downto 0);
-        out_cordic_done : out std_logic;
-        out_y          : out std_logic_vector(data_length-1 downto 0)
+        out_cordic_done : out std_logic
     );
 end entity CORDIC;
 
@@ -176,5 +175,4 @@ begin
 
     out_theta <= out_reg_theta;
     out_cordic_done <= cordic_done;
-    out_y <= out_reg_y;
 end architecture CORDIC_arch;
