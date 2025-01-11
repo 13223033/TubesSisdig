@@ -23,7 +23,7 @@ begin
         elsif (purge = '1') then
             current_state <= idle;
             process_signal <= '0';
-        elsif (rising_edge(clock)) then
+        elsif (rising_edge(clock)) AND (divider_done = '1') then
             current_state <= next_state;
         end if;
     end process change_state;
